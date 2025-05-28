@@ -25,19 +25,34 @@ export default function Login() {
   container.querySelector('#login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const username = formData.get('user_name'); // Capture before sending
+    const username = formData.get('user_name');
+    const password = formData.get('password');
 
-    const res = await fetch('/login', {
-      method: 'POST',
-      body: new URLSearchParams(formData),
-      credentials: 'include',
-    });
+    try {
+      const res = await fetch('http://localhost:3000/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          user_name: username,
+          password: password,
+        }),
+      });
 
-    if (res.ok) {
-      localStorage.setItem('username', username); // Store in localStorage
-      location.href = '/home'; // Redirect
-    } else {
-      alert("Login failed");
+      if (!res.ok) {
+        const { error } = await res.json();
+        alert(error || "Login failed");
+        return;
+      }
+
+      const { user } = await res.json();
+      localStorage.setItem('username', user.user_name); // store name
+      location.href = '/home';
+    } catch (err) {
+      alert("Network error or server down.");
+      console.error("Login error:", err);
     }
   });
 

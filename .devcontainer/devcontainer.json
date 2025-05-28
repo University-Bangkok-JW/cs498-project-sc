@@ -1,0 +1,30 @@
+{
+  "name": "Npm Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/jshint:2": {}
+  },
+  "postCreateCommand": "git config --global user.name \"$GIT_USER_NAME\" && git config --global user.email \"$GIT_USER_EMAIL\" && cd server/src && npm install",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "workbench.colorTheme": "Default Dark Modern"
+      },
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "alefragnani.bookmarks",
+        "eamodio.gitlens",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "GIT_USER_NAME": "${localEnv:GIT_USER_NAME}",
+    "GIT_USER_EMAIL": "${localEnv:GIT_USER_EMAIL}",
+    "GIT_USER_TOKEN": "${localEnv:GIT_USER_TOKEN}"
+  }
+}

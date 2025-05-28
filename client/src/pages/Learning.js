@@ -98,7 +98,14 @@ export default function Learning({ id, name, role }) {
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
+  let aiResponding = false;
+
   async function askAndSpeak(message) {
+    if (aiResponding) return;
+    aiResponding = true;
+    askBtn.disabled = true;
+    askBtn.textContent = 'Waiting...';
+
     try {
       const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(message)}`);
       const data = await res.json();
@@ -114,6 +121,16 @@ export default function Learning({ id, name, role }) {
 
   function speakMessage(text) {
     const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.onend = () => {
+      aiResponding = false;
+      askBtn.disabled = false;
+      if (isListening) {
+        recognition.start(); // restart speech recognition after AI finishes
+      }
+      askBtn.textContent = isListening ? 'Stop' : 'Ask AI';
+    };
+
     speechSynthesis.speak(utterance);
   }
 
@@ -177,7 +194,7 @@ export default function Learning({ id, name, role }) {
   }
 
   askBtn.addEventListener('click', () => {
-    if (!recognition) return;
+    if (!recognition || aiResponding) return;
 
     if (!isListening) {
       isListening = true;

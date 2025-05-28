@@ -1,7 +1,13 @@
-import { defineConfig } from 'vite';
-import path from 'path';
-
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        home: path.resolve(__dirname, 'home.html'),
+        learning: path.resolve(__dirname, 'learning.html')
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -10,16 +16,5 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-  },
-  plugins: [{
-    name: 'html-fallback',
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (!req.url.includes('.') && !req.url.startsWith('/api')) {
-          req.url = '/';
-        }
-        next();
-      });
-    }
-  }]
+  }
 });

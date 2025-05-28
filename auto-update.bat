@@ -1,34 +1,22 @@
 @echo off
-REM Change to your project directory
-cd /d "C:\Path\To\Your\Project"
-
-echo.
-echo ===============================
-echo      Starting Git Update
-echo ===============================
+REM === Step 1: Fetch and Pull from Git ===
+echo Fetching latest changes from Git...
 git fetch
 git pull
 
-echo.
-echo ===============================
-echo    Stopping & Removing Docker
-echo ===============================
+REM === Step 2: Copy Docker Compose Example to Active File ===
+echo Copying docker-compose.yml.example to docker-compose.yml...
+copy /Y docker-compose.yml.example docker-compose.yml
+
+REM === Step 3: Docker Compose Restart ===
+echo Bringing down containers and clearing volumes/images...
 docker compose down --rmi all --volumes --remove-orphans
 
-echo.
-echo ===============================
-echo     Building Docker Images
-echo ===============================
+echo Rebuilding Docker containers with no cache...
 docker compose build --no-cache
 
-echo.
-echo ===============================
-echo     Starting Docker Compose
-echo ===============================
+echo Starting Docker containers...
 docker compose up -d
 
-echo.
-echo ===============================
-echo     DONE! Press any key to exit
-echo ===============================
-pause >nul
+echo All done!
+pause

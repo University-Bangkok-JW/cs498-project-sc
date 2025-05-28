@@ -99,6 +99,7 @@ export default function Learning({ id, name, role }) {
   });
 
   let aiResponding = false;
+  let conversationHistory = [];
 
   async function askAndSpeak(message) {
     if (aiResponding) return;
@@ -113,7 +114,7 @@ export default function Learning({ id, name, role }) {
       const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(combinedMessage)}`);
       const data = await res.json();
       const reply = data.response || "Sorry, I didn't get that.";
-      
+
       conversationHistory.push(`AI: ${reply}`);
       logToConsole('AI', reply);
       speakMessage(reply);
@@ -128,16 +129,15 @@ export default function Learning({ id, name, role }) {
     const utterance = new SpeechSynthesisUtterance(text);
 
     utterance.onend = () => {
-      // Wait a short moment to ensure speechSynthesis.speaking is actually false
       setTimeout(() => {
         aiResponding = false;
         askBtn.disabled = false;
         askBtn.textContent = isListening ? 'Stop' : 'Ask AI';
 
         if (isListening && recognition) {
-          recognition.start(); // restart speech recognition after AI finishes
+          recognition.start();
         }
-      }, 200); // 200ms delay to ensure speech has actually ended
+      }, 200);
     };
 
     speechSynthesis.speak(utterance);
@@ -189,7 +189,7 @@ export default function Learning({ id, name, role }) {
           recognition.stop();
 
           if (isListening) {
-            setTimeout(() => recognition.start(), 1000); // restart after reply
+            setTimeout(() => recognition.start(), 1000);
           }
         }
       });
@@ -217,7 +217,7 @@ export default function Learning({ id, name, role }) {
       recognition.stop();
       askBtn.textContent = 'Ask AI';
       askBtn.classList.remove('stop');
-      conversationHistory = []; // 🔥 Clear memory when stopped
+      conversationHistory = []; // ✅ Clear memory when user stops
     }
   });
 

@@ -53,7 +53,7 @@ start "" http://localhost:5173
 
 REM === Step 7: Check PostgreSQL Tables ===
 echo Checking PostgreSQL tables in 'mydb' database...
-docker exec -it postgres_db psql -U postgres -d mydb -c "\dt"
+docker exec -i postgres_db psql -U postgres -d mydb -c "\dt"
 
 echo All done!
 pause

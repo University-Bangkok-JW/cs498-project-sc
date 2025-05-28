@@ -171,6 +171,8 @@ export default function Learning({ id, name, role }) {
     recognition.interimResults = true;
 
     recognition.onresult = (event) => {
+      if (aiResponding) return;
+
       let interim = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {

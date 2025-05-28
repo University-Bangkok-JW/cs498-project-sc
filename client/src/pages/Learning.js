@@ -199,6 +199,19 @@ export default function Learning({ id, name, role }) {
 
     recognition.onerror = (e) => {
       console.error('Speech recognition error:', e.error);
+      if (e.error === 'no-speech') {
+        logToConsole('System', 'No speech detected. Please try again.');
+        if (isListening && !aiResponding) {
+          recognition.stop();
+          setTimeout(() => recognition.start(), 500); // Retry after short pause
+        }
+      } else if (e.error === 'network') {
+        logToConsole('System', 'Network error. Check your connection.');
+      } else if (e.error === 'not-allowed') {
+        logToConsole('System', 'Microphone access denied.');
+      } else {
+        logToConsole('System', `Speech error: ${e.error}`);
+      }
     };
   } else {
     alert('Your browser does not support Speech Recognition');
@@ -225,7 +238,7 @@ export default function Learning({ id, name, role }) {
 
   function resetSilenceTimer(callback) {
     if (silenceTimer) clearTimeout(silenceTimer);
-    silenceTimer = setTimeout(callback, 5000);
+    silenceTimer = setTimeout(callback, 3000);
   }
 
   function logToConsole(type, text) {

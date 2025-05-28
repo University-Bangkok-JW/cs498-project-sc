@@ -80,10 +80,6 @@ export default function Learning({ id, name, role }) {
     model.scale.set(1, 1, 1);
     model.position.set(0, -1, 0);
     scene.add(model);
-
-    setTimeout(() => {
-      askAndSpeak("Hello! How can I help you today?");
-    }, 1000);
   }, undefined, (error) => {
     console.error('Error loading model:', error);
   });
@@ -135,12 +131,12 @@ export default function Learning({ id, name, role }) {
     }, 50);
   }
 
-  // 🎤 Voice recognition setup
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition;
   let silenceTimer;
-
   let finalTranscript = '';
+  let isListening = false;
+  const askBtn = container.querySelector('#ask-btn');
 
   if (SpeechRecognition) {
     recognition = new SpeechRecognition();
@@ -159,11 +155,16 @@ export default function Learning({ id, name, role }) {
       }
 
       resetSilenceTimer(() => {
-        if (finalTranscript.trim()) {
-          logToConsole('User', finalTranscript.trim());
-          askAndSpeak(finalTranscript.trim());
+        const cleaned = finalTranscript.trim();
+        if (cleaned) {
+          logToConsole('User', cleaned);
+          askAndSpeak(cleaned);
           finalTranscript = '';
-          recognition.stop(); // ✅ only stop here
+          recognition.stop();
+
+          if (isListening) {
+            setTimeout(() => recognition.start(), 1000); // restart after reply
+          }
         }
       });
     };
@@ -175,12 +176,22 @@ export default function Learning({ id, name, role }) {
     alert('Your browser does not support Speech Recognition');
   }
 
-  // ✅ Button only starts listening
-  container.querySelector('#ask-btn').addEventListener('click', () => {
+  askBtn.addEventListener('click', () => {
     if (!recognition) return;
-    speechSynthesis.cancel(); // stop speaking
-    finalTranscript = ''; // clear previous
-    recognition.start();
+
+    if (!isListening) {
+      isListening = true;
+      finalTranscript = '';
+      speechSynthesis.cancel();
+      recognition.start();
+      askBtn.textContent = 'Stop';
+      askBtn.classList.add('stop');
+    } else {
+      isListening = false;
+      recognition.stop();
+      askBtn.textContent = 'Ask AI';
+      askBtn.classList.remove('stop');
+    }
   });
 
   function resetSilenceTimer(callback) {

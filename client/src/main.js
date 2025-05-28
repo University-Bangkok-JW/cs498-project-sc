@@ -39,6 +39,8 @@ function init() {
     app.appendChild(Logout());
   } else if (page === '/learning') {
     app.appendChild(Learning());
+  } else {
+    location.href = '/home';
   }
 }
 

@@ -34,24 +34,12 @@ docker compose build --no-cache
 echo Starting Docker containers...
 docker compose up -d
 
-REM === Step 5: Log Docker Output ===
-for /f %%a in ('powershell -NoProfile -Command "Get-Date -Format \"yyyy-MM-dd-HH-mm-ss\""') do set "timestamp=%%a"
-
-if not exist logs (
-    mkdir logs
-)
-
-echo Saving logs at %timestamp%...
-docker logs cs498-client > logs\%timestamp%-client.txt 2>&1
-docker logs cs498-server > logs\%timestamp%-server.txt 2>&1
-echo Logs saved in 'logs\' folder.
-
-REM === Step 6: Open browser tabs ===
+REM === Step 5: Open browser tabs ===
 echo Opening localhost tabs...
 start "" http://localhost:3000
 start "" http://localhost:5173
 
-REM === Step 7: Wait for PostgreSQL to be ready and check tables ===
+REM === Step 6: Wait for PostgreSQL to be ready and check tables ===
 echo Waiting for PostgreSQL to be ready...
 
 set RETRIES=30
@@ -73,6 +61,19 @@ if %errorlevel% neq 0 (
 
 echo PostgreSQL is ready. Checking tables...
 docker exec -i postgres_db psql -U postgres -d mydb -c "\dt"
+
+REM === Step 7: Log Docker Output ===
+for /f %%a in ('powershell -NoProfile -Command "Get-Date -Format \"yyyy-MM-dd-HH-mm-ss\""') do set "timestamp=%%a"
+
+if not exist logs (
+    mkdir logs
+)
+
+echo Saving logs at %timestamp%...
+docker logs cs498-client > logs\%timestamp%-client.txt 2>&1
+docker logs cs498-server > logs\%timestamp%-server.txt 2>&1
+docker logs postgres_db > logs\%timestamp%-postgres.txt 2>&1
+echo Logs saved in 'logs\' folder.
 
 echo All done!
 pause

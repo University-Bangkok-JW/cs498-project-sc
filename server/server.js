@@ -5,6 +5,10 @@ const path = require("path");
 const indexRoute = require("./routes/index");
 const chatRoute = require("./routes/chat");
 
+// Utility functions for database and user setup
+const { ensureDatabaseExists } = require("./utils/fileHandler");
+const { addUser } = require("./utils/userHandler");
+
 const app = express();
 
 // Middleware
@@ -19,9 +23,26 @@ app.use(
   })
 );
 
+ensureDatabaseExists().then(() => {
+  // Add default admin and user accounts
+  return Promise.all([
+    addUser("jetsada", "admin@example.com", "admin", "1234"),
+    addUser("owen", "user@example.com", "user", "1234")
+  ]);
+}).then(() => {
+  console.log("Default users added.");
+}).catch((err) => {
+  console.error("Database setup error:", err);
+});
+
 // Route mounting
 app.use("/", indexRoute);
 app.use("/chat", chatRoute);
+
+// Catch-all route to handle undefined routes
+app.use((req, res) => {
+  res.redirect("/");
+});
 
 // Start server
 const port = process.env.PORT || 3000;

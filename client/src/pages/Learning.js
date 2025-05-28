@@ -123,12 +123,16 @@ export default function Learning({ id, name, role }) {
     const utterance = new SpeechSynthesisUtterance(text);
 
     utterance.onend = () => {
-      aiResponding = false;
-      askBtn.disabled = false;
-      if (isListening) {
-        recognition.start(); // restart speech recognition after AI finishes
-      }
-      askBtn.textContent = isListening ? 'Stop' : 'Ask AI';
+      // Wait a short moment to ensure speechSynthesis.speaking is actually false
+      setTimeout(() => {
+        aiResponding = false;
+        askBtn.disabled = false;
+        askBtn.textContent = isListening ? 'Stop' : 'Ask AI';
+
+        if (isListening && recognition) {
+          recognition.start(); // restart speech recognition after AI finishes
+        }
+      }, 200); // 200ms delay to ensure speech has actually ended
     };
 
     speechSynthesis.speak(utterance);

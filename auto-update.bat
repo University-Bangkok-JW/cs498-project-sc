@@ -18,5 +18,10 @@ docker compose build --no-cache
 echo Starting Docker containers...
 docker compose up -d
 
+REM === Step 4: Open browser tabs ===
+echo Opening localhost tabs...
+start "" http://localhost:3000
+start "" http://localhost:5173
+
 echo All done!
 pause

@@ -18,11 +18,11 @@ git pull
 
 REM === Step 2: Copy Docker Compose Example to Active File ===
 echo Copying docker-compose.yml.example to docker-compose.yml...
-copy /Y docker-compose.yml.example docker-compose.yml
+copy /Y "docker-compose.yml.example" "docker-compose.yml"
 
 REM === Step 3: Inject DEEPSEEK_TOKEN into docker-compose.yml ===
 echo Injecting DEEPSEEK_TOKEN into docker-compose.yml...
-powershell -Command "(Get-Content docker-compose.yml) -replace 'DEEPSEEK_TOKEN=', 'DEEPSEEK_TOKEN=%TOKEN%' | Set-Content docker-compose.yml"
+powershell -Command "(Get-Content 'docker-compose.yml') -replace 'DEEPSEEK_TOKEN=', 'DEEPSEEK_TOKEN=%TOKEN%' | Set-Content 'docker-compose.yml'"
 
 REM === Step 4: Docker Compose Restart ===
 echo Bringing down containers and clearing volumes/images...
@@ -49,12 +49,12 @@ set COUNT=0
 docker exec postgres_db pg_isready -U postgres >nul 2>&1
 if %errorlevel% neq 0 (
     set /a COUNT+=1
-    if %COUNT% GEQ %RETRIES% (
+    if !COUNT! GEQ %RETRIES% (
         echo ERROR: PostgreSQL did not become ready in time.
         pause
         exit /b 1
     )
-    echo PostgreSQL not ready yet... retrying in 2 seconds (%COUNT%/%RETRIES%)
+    echo PostgreSQL not ready yet... retrying in 2 seconds (!COUNT!/!RETRIES!)
     timeout /t 2 >nul
     goto wait_pg
 )
@@ -70,9 +70,9 @@ if not exist logs (
 )
 
 echo Saving logs at %timestamp%...
-docker logs cs498-client > logs\%timestamp%-client.txt 2>&1
-docker logs cs498-server > logs\%timestamp%-server.txt 2>&1
-docker logs postgres_db > logs\%timestamp%-postgres.txt 2>&1
+docker logs cs498-client > "logs\%timestamp%-client.txt" 2>&1
+docker logs cs498-server > "logs\%timestamp%-server.txt" 2>&1
+docker logs postgres_db > "logs\%timestamp%-postgres.txt" 2>&1
 echo Logs saved in 'logs\' folder.
 
 echo All done!

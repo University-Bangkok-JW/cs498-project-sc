@@ -14,6 +14,7 @@ services:
       - DB_PASSWORD=1234
       - DB_NAME=mydb
       - DB_PORT=5432
+      - DEEPSEEK_KEY=
     restart: always
     working_dir: /usr/src/server
     depends_on:

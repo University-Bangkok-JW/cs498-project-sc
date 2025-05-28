@@ -4,3 +4,6 @@ docker-compose.yml
 # Npm
 *-lock.json
 node_modules
+
+# DB
+init.sql

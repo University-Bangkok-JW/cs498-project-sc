@@ -101,7 +101,7 @@ export default function Learning({ id, name, role }) {
 
   async function askAndSpeak(message) {
     try {
-      const res = await fetch(`http://localhost:3000/chat?msg=${encodeURIComponent(message)}`);
+      const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(message)}`);
       const data = await res.json();
       const reply = data.response || "Sorry, I didn't get that.";
       speakMessage(reply);

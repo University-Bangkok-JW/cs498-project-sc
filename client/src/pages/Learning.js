@@ -60,7 +60,6 @@ export default function Learning({ id, name, role }) {
     }
   });
 
-  // Three.js setup
   const canvas = container.querySelector('.threejs');
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -117,6 +116,7 @@ export default function Learning({ id, name, role }) {
 
       conversationHistory.push(`AI: ${reply}`);
       logToConsole('AI', reply);
+      askBtn.textContent = 'Answering...';
       speakMessage(reply);
       animateTalk();
     } catch (err) {
@@ -217,7 +217,7 @@ export default function Learning({ id, name, role }) {
       recognition.stop();
       askBtn.textContent = 'Ask AI';
       askBtn.classList.remove('stop');
-      conversationHistory = []; // ✅ Clear memory when user stops
+      conversationHistory = [];
     }
   });
 

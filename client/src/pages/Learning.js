@@ -43,8 +43,8 @@ export default function Learning({ id, name, role }) {
     <canvas class="threejs" style="width: 100%; height: 100vh; display: block;"></canvas>
     <div class="ask-ai-wrapper">
       <button id="ask-btn">Ask AI</button>
-      <div id="log-console" style="margin-top: 10px; max-height: 200px; overflow-y: auto; background: #f8f8f8; border: 1px solid #ccc; padding: 10px; font-family: monospace; font-size: 14px;"></div>
     </div>
+    <div id="log-console"></div>
   `;
 
   container.querySelector('#menu-icon').addEventListener('click', () => {

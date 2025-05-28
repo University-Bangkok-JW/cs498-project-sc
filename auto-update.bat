@@ -51,8 +51,27 @@ echo Opening localhost tabs...
 start "" http://localhost:3000
 start "" http://localhost:5173
 
-REM === Step 7: Check PostgreSQL Tables ===
-echo Checking PostgreSQL tables in 'mydb' database...
+REM === Step 7: Wait for PostgreSQL to be ready and check tables ===
+echo Waiting for PostgreSQL to be ready...
+
+set RETRIES=30
+set COUNT=0
+
+:wait_pg
+docker exec postgres_db pg_isready -U postgres >nul 2>&1
+if %errorlevel% neq 0 (
+    set /a COUNT+=1
+    if %COUNT% GEQ %RETRIES% (
+        echo ERROR: PostgreSQL did not become ready in time.
+        pause
+        exit /b 1
+    )
+    echo PostgreSQL not ready yet... retrying in 2 seconds (%COUNT%/%RETRIES%)
+    timeout /t 2 >nul
+    goto wait_pg
+)
+
+echo PostgreSQL is ready. Checking tables...
 docker exec -i postgres_db psql -U postgres -d mydb -c "\dt"
 
 echo All done!

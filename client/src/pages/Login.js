@@ -1,24 +1,40 @@
 export default function Login() {
   const container = document.createElement('div');
+  container.className = 'login-container';
   container.innerHTML = `
-    <form id="login-form" style="max-width: 300px; margin: auto;">
-      <h2>Login</h2>
-      <input name="user_name" type="text" placeholder="Username" required class="form-control" />
-      <input name="password" type="password" placeholder="Password" required class="form-control" />
-      <button type="submit" class="btn btn-primary mt-2">Login</button>
-    </form>
+    <!-- ส่วนของโลโก้ -->
+    <div class="logo">
+      <img src="/images/logo.png" alt="Kubota Logo">
+    </div>
+
+    <!-- ส่วนของฟอร์ม -->
+    <div class="form-container">
+      <form id="login-form">
+        <!-- ช่องกรอกชื่อผู้ใช้ -->
+        <input type="text" name="user_name" class="form-control" placeholder="Enter your Username" required>
+
+        <!-- ช่องกรอกรหัสผ่าน -->
+        <input type="password" name="password" class="form-control" placeholder="Enter your Password" required>
+
+        <!-- ปุ่มเข้าสู่ระบบ -->
+        <button type="submit" class="btn btn-login">เข้าสู่ระบบ</button>
+      </form>
+    </div>
   `;
 
-  container.querySelector('form').addEventListener('submit', async (e) => {
+  container.querySelector('#login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
     const res = await fetch('/login', {
       method: 'POST',
       body: new URLSearchParams(formData),
       credentials: 'include',
     });
+
     if (res.ok) {
       alert("Login successful");
+      // Optional: Redirect logic here
     } else {
       alert("Login failed");
     }

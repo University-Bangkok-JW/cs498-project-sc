@@ -6,57 +6,45 @@ import Learning from './pages/Learning.js';
 const page = location.pathname;
 const app = document.getElementById('app');
 
+// Get user object from cache
+function getCachedUser() {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
+}
+
+// Render page with user if authenticated
+function loadPage(pageFn) {
+  const user = getCachedUser();
+  if (!user) {
+    location.href = '/';
+    return;
+  }
+  app.appendChild(pageFn({
+    id: user.user_id,
+    name: user.user_name,
+    role: user.user_role
+  }));
+}
+
+// Init router
 function init() {
-  app.innerHTML = ''; // Clear content
-  const username = localStorage.getItem('username');
+  app.innerHTML = ''; // Clear previous content
+  const user = getCachedUser();
 
   if (page === '/' || page === '/login') {
-    if (username) {
+    if (user) {
       location.href = '/home';
       return;
     }
     app.appendChild(Login());
   } else if (page === '/home') {
-    if (!username) {
-      location.href = '/';
-      return;
-    }
-    fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
-      credentials: 'include',
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('User fetch failed');
-        return res.json();
-      })
-      .then(user => {
-        app.appendChild(Home({ id: user.user_id, name: user.user_name, role: user.user_role }));
-      })
-      .catch(err => {
-        console.error('Failed to load user:', err);
-        app.innerHTML = '<p>Failed to load user data. <a href="/login">Retry login</a></p>';
-      });
+    loadPage(Home);
   } else if (page === '/logout') {
     app.appendChild(Logout());
   } else if (page === '/learning') {
-    if (!username) {
-      location.href = '/';
-      return;
-    }
-    fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
-      credentials: 'include',
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('User fetch failed');
-        return res.json();
-      })
-      .then(user => {
-        app.appendChild(Learning({ id: user.user_id, name: user.user_name, role: user.user_role }));
-      })
-      .catch(err => {
-        console.error('Failed to load user:', err);
-        app.innerHTML = '<p>Failed to load user data. <a href="/login">Retry login</a></p>';
-      });
+    loadPage(Learning);
   } else {
+    // Fallback for undefined routes
     location.href = '/home';
   }
 }

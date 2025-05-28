@@ -48,7 +48,7 @@ export default function Login() {
       }
 
       const { user } = await res.json();
-      localStorage.setItem('username', user.user_name); // store name
+      localStorage.setItem('user', JSON.stringify(user));
       location.href = '/home';
     } catch (err) {
       alert("Network error or server down.");

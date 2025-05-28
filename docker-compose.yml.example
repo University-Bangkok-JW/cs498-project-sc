@@ -2,8 +2,7 @@ services:
   server:
     build: ./server
     command: >
-      sh -c "chmod +x /wait-for-it.sh &&
-            /wait-for-it.sh db:5432 -- sh -c 'npm start'"
+      sh -c "./wait-for-it.sh db:5432 -- npm start"
     ports:
       - "3000:3000"
     environment:
@@ -18,9 +17,6 @@ services:
     working_dir: /usr/src/server
     depends_on:
       - db
-    volumes:
-      - ./server:/usr/src/server
-      - ./wait-for-it.sh:/wait-for-it.sh
     networks:
       - backend
 
@@ -31,8 +27,6 @@ services:
       - "5173:5173"
     restart: always
     working_dir: /usr/src/client
-    volumes:
-      - ./client:/usr/src/client
     depends_on:
       - server
     networks:

@@ -1,17 +1,14 @@
-# Use an official Node.js image
 FROM node:18
 
-# Create app directory
 WORKDIR /usr/src/server
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Expose port 3000
-EXPOSE 3000
+COPY . .
 
-# Run the app
+# Fix permission issue with wait-for-it.sh
+RUN chmod +x ./wait-for-it.sh
+
+EXPOSE 3000
 CMD ["npm", "start"]

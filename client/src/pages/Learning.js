@@ -41,7 +41,10 @@ export default function Learning({ id, name, role }) {
     </aside>
 
     <canvas class="threejs" style="width: 100%; height: 100vh; display: block;"></canvas>
-    <div class="ask-ai-wrapper"><button id="ask-btn">Ask AI</button></div>
+    <div class="ask-ai-wrapper">
+      <button id="ask-btn">Ask AI</button>
+      <div id="log-console" style="margin-top: 10px; max-height: 200px; overflow-y: auto; background: #f8f8f8; border: 1px solid #ccc; padding: 10px; font-family: monospace; font-size: 14px;"></div>
+    </div>
   `;
 
   container.querySelector('#menu-icon').addEventListener('click', () => {
@@ -156,6 +159,7 @@ export default function Learning({ id, name, role }) {
 
       resetSilenceTimer(() => {
         if (finalTranscript.trim()) {
+          logToConsole('User', finalTranscript.trim());
           askAndSpeak(finalTranscript.trim());
           finalTranscript = '';
           recognition.stop(); // ✅ only stop here
@@ -181,6 +185,15 @@ export default function Learning({ id, name, role }) {
   function resetSilenceTimer(callback) {
     if (silenceTimer) clearTimeout(silenceTimer);
     silenceTimer = setTimeout(callback, 5000);
+  }
+
+  function logToConsole(type, text) {
+    const logBox = container.querySelector('#log-console');
+    const entry = document.createElement('div');
+    entry.textContent = `${type}: ${text}`;
+    entry.style.color = type === 'User' ? 'blue' : 'green';
+    logBox.appendChild(entry);
+    logBox.scrollTop = logBox.scrollHeight;
   }
 
   return container;

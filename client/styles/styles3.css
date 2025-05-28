@@ -1,0 +1,166 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+.header {
+    background-color: #009999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    height: 60px;
+}
+
+.logo {
+    height: 65px; /* ปรับขนาดโลโก้ */
+    width: auto;
+}
+
+
+
+.menu-button {
+    background: none;
+    border: 2px solid white; /* เพิ่มขอบสีดำรอบปุ่ม */
+    border-radius: 5px; /* ทำให้มุมมนเล็กน้อย */
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-icon {
+    width: 35px; /* ปรับขนาดรูป */
+    height: auto;
+}
+
+
+
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background-color: #f4f4f4;
+    height: calc(100vh - 60px); /* ลดความสูงให้พอดีกับ Header */
+    position: fixed;
+    left: 0;
+    top: 60px; /* ให้เริ่มใต้ Header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-footer {
+    display: flex;
+    justify-content: center; /* จัดให้อยู่ตรงกลาง */
+    align-items: center;
+    gap: 40px; /* เพิ่มระยะห่างระหว่างไอคอน */
+    width: 100%;
+    padding-bottom: 20px;
+    margin-top: auto; /* ดันให้ไปอยู่ด้านล่างสุด */
+}
+
+/* ปรับขนาดปุ่มไอคอน */
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-button img {
+    width: 35px; /* ปรับขนาดไอคอน */
+    height: auto;
+    object-fit: contain;
+}
+
+.icon-button span {
+    font-size: 12px;
+    color: black;
+    display: block;
+    margin-top: 5px;
+}
+
+
+.user-info {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.user-info img {
+    display: block; /* ป้องกัน inline spacing */
+    width: 100px; /* กำหนดขนาดรูป */
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 10px auto; /* จัดให้อยู่ตรงกลางแนวนอน */
+}
+
+
+.menu {
+    width: 100%;
+    text-align: center;
+}
+
+.menu-item {
+    display: block;
+    background-color: #009999;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    
+}
+
+.menu2 {
+    width: 100%;
+    text-align: center;
+}
+
+.menu2-item {
+    display: block;
+    background-color: #f4f4f4;
+    color: #009999;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid black; /* เพิ่มขอบสีดำรอบปุ่ม */
+    border-radius: 8px; /* ทำให้ขอบมน */
+}
+
+/* เนื้อหาหลัก */
+.content {
+    margin-left: 250px; /* ขยับออกจาก sidebar */
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .card-container {
+        grid-template-columns: repeat(2, 1fr); /* ลดเหลือ 2 คอลัมน์ในหน้าจอเล็ก */
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .content {
+        margin-left: 200px;
+    }
+
+    .card-container {
+        grid-template-columns: repeat(1, 1fr); /* เหลือ 1 คอลัมน์ในมือถือ */
+    }
+}

@@ -1,0 +1,50 @@
+/* ตั้งค่าพื้นฐานให้ Body */
+body {
+    display: flex; /* ใช้ Flexbox */
+    justify-content: center; /* จัดกึ่งกลางแนวนอน */
+    align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+    height: 100vh; /* ความสูงเต็มหน้าจอ */
+    background-color: #ffffff; /* พื้นหลังสีขาว */
+    font-family: 'Arial', sans-serif; /* ใช้ฟอนต์ Arial */
+    margin: 0; /* ลบค่าขอบทั้งหมด */
+}
+
+/* ตั้งค่ากล่องล็อกอิน */
+.login-container {
+    display: flex; /* ใช้ Flexbox */
+    flex-direction: column; /* เรียงในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่ตรงกลาง */
+    text-align: center; /* จัดข้อความกึ่งกลาง */
+    transform: translateY(-180px); /* ขยับขึ้น 125px */
+}
+
+/* ตั้งค่าขนาดโลโก้ */
+.logo img {
+    width: 500px; /* กำหนดความกว้างของโลโก้ */
+    height: auto; /* ป้องกันภาพบิดเบี้ยว */
+    margin-bottom: 10px; /* เพิ่มระยะห่าง */
+}
+
+/* ตั้งค่าฟอร์ม */
+.form-container {
+    width: 500px; /* กำหนดความกว้างของฟอร์ม */
+}
+
+/* ตั้งค่าช่องกรอกข้อมูลและปุ่ม */
+.form-control, .btn-login {
+    width: 100%; /* กำหนดให้เต็มพื้นที่ของฟอร์ม */
+    border-radius: 20px; /* ทำให้มุมโค้งมน */
+    margin-bottom: 15px; /* เพิ่มระยะห่าง */
+}
+
+/* ตั้งค่าสไตล์ปุ่ม */
+.btn-login {
+    background-color: #009999; /* สีพื้นหลัง */
+    color: white; /* สีตัวอักษร */
+    font-size: 18px; /* ขนาดตัวอักษร */
+}
+
+/* เปลี่ยนสีปุ่มเมื่อโฮเวอร์ */
+.btn-login:hover {
+    background-color: #007777; /* เปลี่ยนเป็นสีเข้มขึ้น */
+}

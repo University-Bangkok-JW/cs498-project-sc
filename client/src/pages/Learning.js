@@ -178,5 +178,10 @@ export default function Learning({ id, name, role }) {
     recognition.start();
   });
 
+  function resetSilenceTimer(callback) {
+    if (silenceTimer) clearTimeout(silenceTimer);
+    silenceTimer = setTimeout(callback, 5000);
+  }
+
   return container;
 }

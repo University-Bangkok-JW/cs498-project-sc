@@ -9,8 +9,7 @@ app.innerHTML = '';
 
 if (page === '/login' || page === '/') {
   // Render the login form
-  const loginComponent = Login();
-  app.appendChild(loginComponent);
+  app.appendChild(Login());
 } else if (page === '/home') {
   const username = localStorage.getItem('username');
 
@@ -28,12 +27,7 @@ if (page === '/login' || page === '/') {
       return res.json();
     })
     .then(user => {
-      const homeComponent = Home({
-        id: user.user_id,
-        name: user.user_name,
-        role: user.user_role
-      });
-      app.appendChild(homeComponent);
+      app.appendChild(Home({ id: user.user_id, name: user.user_name, role: user.user_role}));
     })
     .catch(err => {
       console.error('Failed to load user:', err);

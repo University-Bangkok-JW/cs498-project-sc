@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 export default function Learning({ id, name, role }) {
   const container = document.createElement('div');
@@ -60,15 +61,26 @@ export default function Learning({ id, name, role }) {
   const canvas = container.querySelector('.threejs');
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ canvas });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  // Light
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1, 1, 1).normalize();
+  scene.add(light);
 
-  camera.position.z = 5;
+  // Load GLB model
+  const loader = new GLTFLoader();
+  loader.load('/models/glbs/fairy.glb', (gltf) => {
+    const model = gltf.scene;
+    model.scale.set(1, 1, 1);
+    model.position.set(0, -1, 0);
+    scene.add(model);
+  }, undefined, (error) => {
+    console.error('Error loading model:', error);
+  });
+
+  camera.position.z = 3;
 
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -78,8 +90,6 @@ export default function Learning({ id, name, role }) {
 
   function animate() {
     requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   }
 

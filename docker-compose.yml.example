@@ -1,5 +1,6 @@
 services:
   server:
+    container_name: cs498-server
     build: ./server
     command: >
       sh -c "./wait-for-it.sh db:5432 -- npm start"
@@ -21,6 +22,7 @@ services:
       - backend
 
   client:
+    container_name: cs498-client
     build: ./client
     command: sh -c "npm run dev"
     ports:

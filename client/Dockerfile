@@ -13,7 +13,7 @@ RUN npm install
 # Copy the app files
 COPY . .
 
-# Expose port 3000
+# Expose port 5173
 EXPOSE 5173
 
 # Run the app

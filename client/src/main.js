@@ -1,5 +1,6 @@
 import Login from './pages/Login.js';
 import Home from './pages/Home.js';
+import Logout from './pages/Logout.js';
 
 const page = location.pathname;
 const app = document.getElementById('app');
@@ -9,22 +10,16 @@ function init() {
   const username = localStorage.getItem('username');
 
   if (page === '/' || page === '/login') {
-    // If already logged in, redirect to /home
     if (username) {
       location.href = '/home';
       return;
     }
-
-    // If not logged in, show Login
     app.appendChild(Login());
   } else if (page === '/home') {
-    // If not logged in, redirect to /
     if (!username) {
       location.href = '/';
       return;
     }
-
-    // If logged in, fetch user data and show Home
     fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
       credentials: 'include',
     })
@@ -39,6 +34,8 @@ function init() {
         console.error('Failed to load user:', err);
         app.innerHTML = '<p>Failed to load user data. <a href="/login">Retry login</a></p>';
       });
+  } else if (page === '/logout') {
+    app.appendChild(Logout());
   }
 }
 

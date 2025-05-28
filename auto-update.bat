@@ -39,30 +39,7 @@ echo Opening localhost tabs...
 start "" http://localhost:3000
 start "" http://localhost:5173
 
-REM === Step 6: Wait for PostgreSQL to be ready and check tables ===
-echo Waiting for PostgreSQL to be ready...
-
-set RETRIES=30
-set COUNT=0
-
-:wait_pg
-docker exec postgres_db pg_isready -U postgres >nul 2>&1
-if %errorlevel% neq 0 (
-    set /a COUNT+=1
-    if !COUNT! GEQ %RETRIES% (
-        echo ERROR: PostgreSQL did not become ready in time.
-        pause
-        exit /b 1
-    )
-    echo PostgreSQL not ready yet... retrying in 2 seconds (!COUNT!/!RETRIES!)
-    timeout /t 2 >nul
-    goto wait_pg
-)
-
-echo PostgreSQL is ready. Checking tables...
-docker exec -i postgres_db psql -U postgres -d mydb -c "\dt"
-
-REM === Step 7: Log Docker Output ===
+REM === Step 6: Log Docker Output ===
 for /f %%a in ('powershell -NoProfile -Command "Get-Date -Format \"yyyy-MM-dd-HH-mm-ss\""') do set "timestamp=%%a"
 
 if not exist logs (

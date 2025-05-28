@@ -107,6 +107,7 @@ export default function Learning({ id, name, role }) {
       const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(message)}`);
       const data = await res.json();
       const reply = data.response || "Sorry, I didn't get that.";
+      logToConsole('AI', reply);
       speakMessage(reply);
       animateTalk();
     } catch (err) {

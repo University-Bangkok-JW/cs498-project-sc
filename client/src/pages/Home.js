@@ -32,7 +32,7 @@ export default function Home(user) {
     </main>
   `;
 
-  // dropdown menu behavior
+  // Dropdown menu behavior
   container.querySelector('.menu-icon').addEventListener('click', () => {
     container.querySelector('#myDropdown').classList.toggle('show');
   });
@@ -40,6 +40,13 @@ export default function Home(user) {
     if (!e.target.matches('.menu-icon')) {
       container.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
     }
+  });
+
+  // Logout logic: clear localStorage and redirect
+  container.querySelector('.logout-link')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem('username');
+    location.href = '/login';
   });
 
   return container;

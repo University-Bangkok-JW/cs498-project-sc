@@ -4,6 +4,7 @@ const path = require("path");
 
 const indexRoute = require("./routes/index");
 const chatRoute = require("./routes/chat");
+const userRoute = require('./routes/user');
 
 // Utility functions for database and user setup
 const { ensureDatabaseExists } = require("./utils/fileHandler");
@@ -38,6 +39,7 @@ ensureDatabaseExists().then(() => {
 // Route mounting
 app.use("/", indexRoute);
 app.use("/chat", chatRoute);
+app.use("/api/user", userRoute)
 
 // Catch-all route to handle undefined routes
 app.use((req, res) => {

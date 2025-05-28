@@ -25,6 +25,7 @@ export default function Login() {
   container.querySelector('#login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const username = formData.get('user_name'); // Capture before sending
 
     const res = await fetch('/login', {
       method: 'POST',
@@ -33,8 +34,8 @@ export default function Login() {
     });
 
     if (res.ok) {
-      alert("Login successful");
-      // Optional: Redirect logic here
+      localStorage.setItem('username', username); // Store in localStorage
+      location.href = '/home'; // Redirect
     } else {
       alert("Login failed");
     }

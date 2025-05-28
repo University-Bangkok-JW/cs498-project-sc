@@ -1,4 +1,4 @@
-export default function Learning() {
+export default function Learning({ id, name, role }) {
   const container = document.createElement('div');
 
   container.innerHTML = `
@@ -17,15 +17,15 @@ export default function Learning() {
     <aside class="sidebar">
       <div class="user-info">
         <img src="/images/avatar.png" alt="User Avatar">
-        <p><strong>ID :</strong> <span id="user-id"></span></p>
-        <p><strong>Name :</strong> <span id="user-name"></span></p>
-        <p><strong>Position :</strong> <span id="user-role"></span></p>
+        <p><strong>ID :</strong> ${id}</p>
+        <p><strong>Name :</strong> ${name}</p>
+        <p><strong>Position :</strong> ${role}</p>
       </div>
       <nav class="menu">
         <a href="/home" class="menu-item">E-Learning <span></span></a>
       </nav>
       <nav class="menu2">
-        <a href="/home" class="menu2-item">Learning <span>→</span></a>
+        <a href="/learning" class="menu2-item">Learning <span>→</span></a>
       </nav>
       <div class="sidebar-footer">
         <button class="icon-button">
@@ -61,7 +61,6 @@ export default function Learning() {
     container.querySelector('#myDropdown').classList.toggle('show');
   });
 
-  // Close dropdown when clicking outside
   window.addEventListener('click', (event) => {
     if (!event.target.matches('.menu-icon')) {
       const dropdown = container.querySelector('#myDropdown');

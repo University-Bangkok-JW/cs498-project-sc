@@ -38,7 +38,24 @@ function init() {
   } else if (page === '/logout') {
     app.appendChild(Logout());
   } else if (page === '/learning') {
-    app.appendChild(Learning());
+    if (!username) {
+      location.href = '/';
+      return;
+    }
+    fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
+      credentials: 'include',
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('User fetch failed');
+        return res.json();
+      })
+      .then(user => {
+        app.appendChild(Learning({ id: user.user_id, name: user.user_name, role: user.user_role }));
+      })
+      .catch(err => {
+        console.error('Failed to load user:', err);
+        app.innerHTML = '<p>Failed to load user data. <a href="/login">Retry login</a></p>';
+      });
   } else {
     location.href = '/home';
   }

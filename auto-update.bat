@@ -1,7 +1,12 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM === Step 0: Read DEEPSEEK_TOKEN from local environment and inject it ===
+REM === Step 0: Fetch and Pull from Git ===
+echo Fetching latest changes from Git...
+git fetch
+git pull
+
+REM === Step 1: Read DEEPSEEK_TOKEN from local environment and inject it ===
 echo Reading DEEPSEEK_TOKEN from local environment...
 set "TOKEN=%DEEPSEEK_TOKEN%"
 
@@ -10,11 +15,6 @@ if "%TOKEN%"=="" (
     pause
     exit /b 1
 )
-
-REM === Step 1: Fetch and Pull from Git ===
-echo Fetching latest changes from Git...
-git fetch
-git pull
 
 REM === Step 2: Copy Docker Compose Example to Active File ===
 echo Copying docker-compose.yml.example to docker-compose.yml...

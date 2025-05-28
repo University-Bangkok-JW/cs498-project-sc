@@ -1,6 +1,7 @@
 import Login from './pages/Login.js';
 import Home from './pages/Home.js';
 import Logout from './pages/Logout.js';
+import Learning from './pages/Learning.js';
 
 const page = location.pathname;
 const app = document.getElementById('app');
@@ -36,6 +37,8 @@ function init() {
       });
   } else if (page === '/logout') {
     app.appendChild(Logout());
+  } else if (page === '/learning') {
+    app.appendChild(Learning());
   }
 }
 

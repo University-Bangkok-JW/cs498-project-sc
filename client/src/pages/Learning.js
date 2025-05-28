@@ -41,7 +41,7 @@ export default function Learning({ id, name, role }) {
     </aside>
 
     <canvas class="threejs" style="width: 100%; height: 100vh; display: block;"></canvas>
-    <button id="ask-btn" style="position: absolute; top: 20px; right: 20px; z-index: 10;">Ask AI</button>
+    <div class="ask-ai-wrapper"><button id="ask-btn">Ask AI</button></div>
   `;
 
   // Dropdown toggle

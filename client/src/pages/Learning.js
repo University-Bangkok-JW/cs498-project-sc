@@ -136,13 +136,13 @@ export default function Learning({ id, name, role }) {
   let recognition;
   let silenceTimer;
 
+  let finalTranscript = '';
+
   if (SpeechRecognition) {
     recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.continuous = true;
     recognition.interimResults = true;
-
-    let finalTranscript = '';
 
     recognition.onresult = (event) => {
       let interim = '';
@@ -158,6 +158,7 @@ export default function Learning({ id, name, role }) {
         if (finalTranscript.trim()) {
           askAndSpeak(finalTranscript.trim());
           finalTranscript = '';
+          recognition.stop(); // ✅ only stop here
         }
       });
     };
@@ -169,17 +170,12 @@ export default function Learning({ id, name, role }) {
     alert('Your browser does not support Speech Recognition');
   }
 
-  function resetSilenceTimer(callback) {
-    if (silenceTimer) clearTimeout(silenceTimer);
-    silenceTimer = setTimeout(callback, 5000);
-  }
-
-  // Trigger voice input on button
+  // ✅ Button only starts listening
   container.querySelector('#ask-btn').addEventListener('click', () => {
     if (!recognition) return;
-    speechSynthesis.cancel(); // stop talking if speaking
+    speechSynthesis.cancel(); // stop speaking
+    finalTranscript = ''; // clear previous
     recognition.start();
-    speakMessage("Listening...");
   });
 
   return container;

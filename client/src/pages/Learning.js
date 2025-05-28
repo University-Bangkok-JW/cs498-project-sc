@@ -106,10 +106,15 @@ export default function Learning({ id, name, role }) {
     askBtn.disabled = true;
     askBtn.textContent = 'Waiting...';
 
+    conversationHistory.push(`User: ${message}`);
+    const combinedMessage = conversationHistory.join('\n');
+
     try {
-      const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(message)}`);
+      const res = await fetch(`http://localhost:3000/chat?message=${encodeURIComponent(combinedMessage)}`);
       const data = await res.json();
       const reply = data.response || "Sorry, I didn't get that.";
+      
+      conversationHistory.push(`AI: ${reply}`);
       logToConsole('AI', reply);
       speakMessage(reply);
       animateTalk();
@@ -212,6 +217,7 @@ export default function Learning({ id, name, role }) {
       recognition.stop();
       askBtn.textContent = 'Ask AI';
       askBtn.classList.remove('stop');
+      conversationHistory = []; // 🔥 Clear memory when stopped
     }
   });
 

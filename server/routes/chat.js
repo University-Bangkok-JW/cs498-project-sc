@@ -3,7 +3,7 @@ const axios = require("axios");
 const router = express.Router();
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || "DefaultApiKey";
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_TOKEN || "DefaultApiKey";
 
 router.get("/", async (req, res) => {
   const userMessage = req.query.message || "Hi there!";

@@ -6,14 +6,25 @@ const app = document.getElementById('app');
 
 function init() {
   app.innerHTML = ''; // Clear content
+  const username = localStorage.getItem('username');
 
-  if (page === '/login' || page === '/') {
+  if (page === '/' || page === '/login') {
+    // If already logged in, redirect to /home
+    if (username) {
+      location.href = '/home';
+      return;
+    }
+
+    // If not logged in, show Login
     app.appendChild(Login());
   } else if (page === '/home') {
-    const username = localStorage.getItem('username');
+    // If not logged in, redirect to /
+    if (!username) {
+      location.href = '/';
+      return;
+    }
 
-    if (!username) return (location.href = '/');
-
+    // If logged in, fetch user data and show Home
     fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
       credentials: 'include',
     })
@@ -31,4 +42,4 @@ function init() {
   }
 }
 
-init(); // Call the function to execute the logic
+init();

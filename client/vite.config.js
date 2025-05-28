@@ -3,12 +3,23 @@ import path from 'path';
 
 export default defineConfig({
   server: {
-    host: '0.0.0.0', // Allow access from Docker or LAN
-    port: 5173,       // Default Vite port
+    host: '0.0.0.0',
+    port: 5173,
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // Use @/ to refer to src/
+      '@': path.resolve(__dirname, './src'),
     },
   },
+  plugins: [{
+    name: 'html-fallback',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (!req.url.includes('.') && !req.url.startsWith('/api')) {
+          req.url = '/';
+        }
+        next();
+      });
+    }
+  }]
 });

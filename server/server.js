@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -13,6 +14,11 @@ const { ensureDatabaseExists } = require("./utils/fileHandler");
 const { addUser } = require("./utils/userHandler");
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
 // Middleware
 app.set("views", path.join(__dirname, "views"));

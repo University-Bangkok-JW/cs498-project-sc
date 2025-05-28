@@ -41,6 +41,7 @@ ensureDatabaseExists().then(() => {
 // Route mounting
 app.use("/", indexRoute);
 app.use("/chat", chatRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute)
 
 // Catch-all route to handle undefined routes

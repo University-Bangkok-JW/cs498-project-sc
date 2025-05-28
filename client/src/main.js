@@ -12,10 +12,7 @@ function init() {
   } else if (page === '/home') {
     const username = localStorage.getItem('username');
 
-    if (!username) {
-      app.innerHTML = '<p>Please log in first. <a href="/login">Go to login</a></p>';
-      return;
-    }
+    if (!username) return (location.href = '/');
 
     fetch(`http://localhost:3000/api/user/${encodeURIComponent(username)}`, {
       credentials: 'include',

@@ -1,0 +1,61 @@
+services:
+  server:
+    build: ./server
+    command: >
+      sh -c "chmod +x ./wait-for-it.sh &&
+             ./wait-for-it.sh db:5432 -- sh -c 'npm start'"
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SESSION_SECRET=your_secret_here
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=1234
+      - DB_NAME=mydb
+      - DB_PORT=5432
+    restart: always
+    working_dir: /usr/src/server
+    depends_on:
+      - db
+    volumes:
+      - ./server:/usr/src/server
+      - ./wait-for-it.sh:/usr/src/server/wait-for-it.sh
+    networks:
+      - backend
+
+  client:
+    build: ./client
+    command: sh -c "npm run dev"
+    ports:
+      - "5173:5173"
+    restart: always
+    working_dir: /usr/src/client
+    volumes:
+      - ./client:/usr/src/client
+    depends_on:
+      - server
+    networks:
+      - backend
+
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
+
+volumes:
+  pgdata:
+
+networks:
+  backend:

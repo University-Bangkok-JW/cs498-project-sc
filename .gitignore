@@ -1,0 +1,6 @@
+# Docker
+docker-compose.yml
+
+# Npm
+*-lock.json
+node_modules

@@ -2,8 +2,8 @@ services:
   server:
     build: ./server
     command: >
-      sh -c "chmod +x ./wait-for-it.sh &&
-             ./wait-for-it.sh db:5432 -- sh -c 'npm start'"
+      sh -c "chmod +x /wait-for-it.sh &&
+            /wait-for-it.sh db:5432 -- sh -c 'npm start'"
     ports:
       - "3000:3000"
     environment:
@@ -20,7 +20,7 @@ services:
       - db
     volumes:
       - ./server:/usr/src/server
-      - ./wait-for-it.sh:/usr/src/server/wait-for-it.sh
+      - ./wait-for-it.sh:/wait-for-it.sh
     networks:
       - backend
 

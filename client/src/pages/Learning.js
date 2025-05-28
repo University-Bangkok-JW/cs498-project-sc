@@ -44,7 +44,6 @@ export default function Learning({ id, name, role }) {
     <div class="ask-ai-wrapper"><button id="ask-btn">Ask AI</button></div>
   `;
 
-  // Dropdown toggle
   container.querySelector('#menu-icon').addEventListener('click', () => {
     container.querySelector('#myDropdown').classList.toggle('show');
   });
@@ -72,7 +71,6 @@ export default function Learning({ id, name, role }) {
   const clock = new THREE.Clock();
   let model = null;
 
-  // Load model
   const loader = new GLTFLoader();
   loader.load('/models/glbs/fairy.glb', (gltf) => {
     model = gltf.scene;
@@ -80,7 +78,6 @@ export default function Learning({ id, name, role }) {
     model.position.set(0, -1, 0);
     scene.add(model);
 
-    // Optional initial message
     setTimeout(() => {
       askAndSpeak("Hello! How can I help you today?");
     }, 1000);
@@ -88,7 +85,6 @@ export default function Learning({ id, name, role }) {
     console.error('Error loading model:', error);
   });
 
-  // Animate loop
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
@@ -97,14 +93,12 @@ export default function Learning({ id, name, role }) {
   camera.position.z = 3;
   animate();
 
-  // Handle resizing
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  // Ask AI and speak
   async function askAndSpeak(message) {
     try {
       const res = await fetch(`http://localhost:3000/chat?msg=${encodeURIComponent(message)}`);
@@ -125,10 +119,8 @@ export default function Learning({ id, name, role }) {
 
   function animateTalk() {
     if (!model) return;
-
     let t = 0;
     const head = model.getObjectByName('Head') || model;
-
     const interval = setInterval(() => {
       head.rotation.y = Math.sin(t) * 0.1;
       t += 0.1;
@@ -139,9 +131,55 @@ export default function Learning({ id, name, role }) {
     }, 50);
   }
 
-  // Trigger ask on button click
+  // 🎤 Voice recognition setup
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition;
+  let silenceTimer;
+
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    let finalTranscript = '';
+
+    recognition.onresult = (event) => {
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+
+      resetSilenceTimer(() => {
+        if (finalTranscript.trim()) {
+          askAndSpeak(finalTranscript.trim());
+          finalTranscript = '';
+        }
+      });
+    };
+
+    recognition.onerror = (e) => {
+      console.error('Speech recognition error:', e.error);
+    };
+  } else {
+    alert('Your browser does not support Speech Recognition');
+  }
+
+  function resetSilenceTimer(callback) {
+    if (silenceTimer) clearTimeout(silenceTimer);
+    silenceTimer = setTimeout(callback, 5000);
+  }
+
+  // Trigger voice input on button
   container.querySelector('#ask-btn').addEventListener('click', () => {
-    askAndSpeak("What are today's learning materials?");
+    if (!recognition) return;
+    speechSynthesis.cancel(); // stop talking if speaking
+    recognition.start();
+    speakMessage("Listening...");
   });
 
   return container;

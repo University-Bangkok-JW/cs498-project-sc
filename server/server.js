@@ -4,6 +4,8 @@ const path = require("path");
 
 const indexRoute = require("./routes/index");
 const chatRoute = require("./routes/chat");
+// Api
+const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 
 // Utility functions for database and user setup

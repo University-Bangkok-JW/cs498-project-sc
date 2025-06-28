@@ -70,17 +70,25 @@ export default function Home({ id, name, role }) {
   // Toggle dropdown logic
   const menuIcon = container.querySelector('#menu-icon');
   const dropdown = container.querySelector('#myDropdown');
-  menuIcon.addEventListener('click', () => {
-    dropdown.classList.toggle('show');
-  });
-
-  window.addEventListener('click', (event) => {
+  const windowClickHandler = (event) => {
     if (!event.target.matches('#menu-icon')) {
       if (dropdown.classList.contains('show')) {
         dropdown.classList.remove('show');
       }
     }
+  };
+
+  menuIcon.addEventListener('click', () => {
+    dropdown.classList.toggle('show');
   });
 
-  return container;
+  window.addEventListener('click', windowClickHandler);
+
+  // Cleanup function
+  function cleanup() {
+    menuIcon.removeEventListener('click', () => dropdown.classList.toggle('show'));
+    window.removeEventListener('click', windowClickHandler);
+  }
+
+  return { container, cleanup };
 }

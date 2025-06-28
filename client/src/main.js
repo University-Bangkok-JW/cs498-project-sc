@@ -3,8 +3,8 @@ import Home from './pages/Home.js';
 import Logout from './pages/Logout.js';
 import Learning from './pages/Learning.js';
 
-const page = location.pathname;
 const app = document.getElementById('app');
+let cleanupCurrentPage = null;
 
 // Get user object from cache
 function getCachedUser() {
@@ -19,34 +19,72 @@ function loadPage(pageFn) {
     location.href = '/';
     return;
   }
-  app.appendChild(pageFn({
+
+  if (cleanupCurrentPage) {
+    cleanupCurrentPage(); // Clean up from previous page
+    cleanupCurrentPage = null;
+  }
+
+  app.innerHTML = ''; // Clear previous content
+
+  const page = pageFn({
     id: user.user_id,
     name: user.user_name,
     role: user.user_role
-  }));
+  });
+
+  if (page instanceof HTMLElement) {
+    app.appendChild(page);
+  } else {
+    app.appendChild(page.container);
+    cleanupCurrentPage = page.cleanup;
+  }
 }
 
 // Init router
 function init() {
-  app.innerHTML = ''; // Clear previous content
+  const page = location.pathname;
   const user = getCachedUser();
+
+  if (cleanupCurrentPage) {
+    cleanupCurrentPage();
+    cleanupCurrentPage = null;
+  }
+
+  app.innerHTML = ''; // Clear previous content
 
   if (page === '/' || page === '/login') {
     if (user) {
       location.href = '/home';
       return;
     }
-    app.appendChild(Login());
+    const pageContent = Login();
+    if (pageContent instanceof HTMLElement) {
+      app.appendChild(pageContent);
+    } else {
+      app.appendChild(pageContent.container);
+      cleanupCurrentPage = pageContent.cleanup;
+    }
   } else if (page === '/home') {
     loadPage(Home);
   } else if (page === '/logout') {
-    app.appendChild(Logout());
+    const pageContent = Logout();
+    if (pageContent instanceof HTMLElement) {
+      app.appendChild(pageContent);
+    } else {
+      app.appendChild(pageContent.container);
+      cleanupCurrentPage = pageContent.cleanup;
+    }
   } else if (page === '/learning') {
     loadPage(Learning);
   } else {
-    // Fallback for undefined routes
     location.href = '/home';
   }
 }
+
+// Optional: Clean up on page unload
+window.addEventListener('beforeunload', () => {
+  if (cleanupCurrentPage) cleanupCurrentPage();
+});
 
 init();

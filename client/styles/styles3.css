@@ -180,6 +180,15 @@ canvas.threejs {
   overflow-y: auto;
 }
 
+#lang-select {
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .card-container {

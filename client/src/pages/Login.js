@@ -10,19 +10,15 @@ export default function Login() {
     <!-- ส่วนของฟอร์ม -->
     <div class="form-container">
       <form id="login-form">
-        <!-- ช่องกรอกชื่อผู้ใช้ -->
         <input type="text" name="user_name" class="form-control" placeholder="Enter your Username" required>
-
-        <!-- ช่องกรอกรหัสผ่าน -->
         <input type="password" name="password" class="form-control" placeholder="Enter your Password" required>
-
-        <!-- ปุ่มเข้าสู่ระบบ -->
         <button type="submit" class="btn btn-login">เข้าสู่ระบบ</button>
       </form>
     </div>
   `;
 
-  container.querySelector('#login-form').addEventListener('submit', async (e) => {
+  const form = container.querySelector('#login-form');
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const username = formData.get('user_name');
@@ -54,7 +50,13 @@ export default function Login() {
       alert("Network error or server down.");
       console.error("Login error:", err);
     }
-  });
+  };
 
-  return container;
+  form.addEventListener('submit', handleSubmit);
+
+  function cleanup() {
+    form.removeEventListener('submit', handleSubmit);
+  }
+
+  return { container, cleanup };
 }

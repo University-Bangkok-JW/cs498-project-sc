@@ -7,18 +7,18 @@ const router = express.Router();
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_TOKEN || "DefaultApiKey";
 
-router.get("/", async (req, res) => {
-  const userMessage = req.query.message || "Hi there!";
-  const lang = req.query.lang || "en-US"; // Default to English if missing
+// POST route - expects JSON body with `lang` and `message`
+router.post("/", async (req, res) => {
+  const userMessage = req.body.message || "Hi there!";
+  const lang = req.body.lang || "en-US";
 
   try {
     const instructionPath = path.join(__dirname, "../data/instruction.txt");
     const instructionText = await fs.readFile(instructionPath, "utf-8");
 
-    // Language context string (e.g. "Please reply in Thai.")
     const langHint = {
       "th-TH": "ตอบกลับเป็นภาษาไทยเท่านั้น",
-      "en-US": "Respond only in English",
+      "en-US": "Respond only in English"
     }[lang] || "Respond only in English";
 
     const response = await axios.post(

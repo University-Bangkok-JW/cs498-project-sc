@@ -235,7 +235,17 @@ export default function Learning({ id, name, role }) {
     const combinedMessage = conversationHistory.join('\n');
 
     try {
-      const res = await fetch(`http://localhost:3000/chat?lang=${encodeURIComponent(currentLang)}&message=${encodeURIComponent(combinedMessage)}`);
+      const res = await fetch('http://localhost:3000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          lang: currentLang,
+          message: combinedMessage
+        })
+      });
+
       const data = await res.json();
       const reply = data.response || "Sorry, I didn't get that.";
       conversationHistory.push(`AI: ${reply}`);

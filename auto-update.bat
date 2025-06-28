@@ -8,7 +8,7 @@ git pull
 
 REM === Step 1: Read DEEPSEEK_TOKEN from local environment and inject it ===
 echo Reading DEEPSEEK_TOKEN from local environment...
-set "TOKEN=%DEEPSEEK_TOKEN%"
+set "TOKEN=%USER_DEEPSEEK_TOKEN%"
 
 if "%TOKEN%"=="" (
     echo ERROR: DEEPSEEK_TOKEN is not set in the environment.

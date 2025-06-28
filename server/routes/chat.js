@@ -1,5 +1,7 @@
 const express = require("express");
 const axios = require("axios");
+const fs = require("fs").promises;
+const path = require("path");
 const router = express.Router();
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
@@ -9,13 +11,16 @@ router.get("/", async (req, res) => {
   const userMessage = req.query.message || "Hi there!";
 
   try {
+    const instructionPath = path.join(__dirname, "../data/instruction.txt");
+    const instructionText = await fs.readFile(instructionPath, "utf-8");
+
     const response = await axios.post(
       DEEPSEEK_API_URL,
       {
         model: "deepseek-chat",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: userMessage },
+          { role: "user", content: `${instructionText}\n\nUser: ${userMessage}` },
         ]
       },
       {

@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
         model: "deepseek-chat",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: `${instructionText}\n\nUser: ${userMessage}` },
+          { role: "user", content: `Only give answer for latest question\n\n${instructionText}\n\nUser: ${userMessage}` },
         ]
       },
       {

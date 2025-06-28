@@ -252,8 +252,7 @@ export default function Learning({ id, name, role }) {
   function logToConsole(type, text) {
     const logBox = container.querySelector('#log-console');
     const entry = document.createElement('div');
-    entry.textContent = `${type}: ${text}`;
-    entry.style.color = type === 'User' ? 'blue' : 'green';
+    entry.innerHTML = `<strong>${type}:</strong> ${text}`;
     logBox.appendChild(entry);
     logBox.scrollTop = logBox.scrollHeight;
   }

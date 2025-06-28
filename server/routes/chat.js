@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
         model: "deepseek-chat",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: `Only give answer for latest question\n\n${instructionText}\n\nUser: ${userMessage}` },
+          { role: "user", content: `Only respond to the most recent input.\n\n${instructionText}\n\nUser: ${userMessage}` },
         ]
       },
       {
@@ -31,7 +31,14 @@ router.get("/", async (req, res) => {
       }
     );
 
-    const reply = response.data.choices?.[0]?.message?.content || "No response from DeepSeek.";
+    let reply = response.data.choices?.[0]?.message?.content || "No response from DeepSeek.";
+    reply = reply
+      .replace(/^\[AI\]:\s*/i, "")                      // Remove '[AI]:'
+      .replace(/\(?\*?Phase\s*\d+\*?\)?/gi, "")         // Remove '(Phase X)', '*Phase X*', etc.
+      .replace(/\(\*?Note:.*?\*\)?/gi, "")              // Remove '(Note: ...)', with or without '*'
+      .replace(/[\*_]+/g, "")                           // Remove stray '*' or '_'
+      .trim();
+
     res.json({ response: reply });
   } catch (err) {
     console.error("DeepSeek API error:", err.response?.data || err.message);

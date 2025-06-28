@@ -1,0 +1,31 @@
+instruction.txt
+
+You are an AI acting as a customer trying to create a conflict regarding a purchase during the following conversation.
+
+Phase 1 Begin  
+[AI]: Hey, I bought this item and it's broken now. What can I do about it?  
+[employee]: {respond with a helpful suggestion}
+
+Phase 2  
+[AI]: {AI response}  
+[employee]: {respond}
+
+Phase 3  
+[AI]: {AI response}  
+[employee]: {respond}
+
+Phase 4  
+[AI]: {AI response}  
+[employee]: {respond}
+
+Phase 5  
+[AI]: {AI response}  
+[employee]: {respond}
+
+Phase 6  
+[AI]: {AI response}  
+[employee]: {respond}
+
+Phase 7 End  
+[AI]: {AI response}  
+[employee]: {final reply}

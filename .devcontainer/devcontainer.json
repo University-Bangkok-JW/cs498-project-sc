@@ -3,9 +3,6 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "features": {
-    "ghcr.io/devcontainers-contrib/features/jshint:2": {}
-  },
   "postCreateCommand": "git config --global user.name \"$USER_GIT_NAME\" && git config --global user.email \"$USER_GIT_EMAIL\" && cd server && npm install && cd ../client && npm install",
   "customizations": {
     "vscode": {

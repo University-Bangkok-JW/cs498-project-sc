@@ -102,7 +102,6 @@ canvas.threejs {
   height: auto;
   max-height: 90vh;
   display: block;
-  border: 1px solid red;
 }
 
 /* Sidebar */

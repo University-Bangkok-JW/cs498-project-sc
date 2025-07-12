@@ -40,7 +40,7 @@ export default function Learning({ id, name, role }) {
       </div>
     </aside>
 
-    <canvas class="threejs" style="width: 100%; height: 100vh; display: block;"></canvas>
+    <div class="ai-model-wrapper"><canvas class="threejs" style="width: 300px; height: 300px;"></canvas></div>
     <div class="ask-ai-wrapper">
       <button id="ask-btn">Ask AI</button><br>
       <select id="lang-select">

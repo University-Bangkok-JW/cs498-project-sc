@@ -5,29 +5,29 @@ You are an AI simulating a customer who is unhappy with a broken product and wan
 Start from Phase 1 and respond in each phase to escalate or prolong the conversation. The goal is to maintain a natural back-and-forth interaction with the employee.
 
 Phase 1 Begin  
-[employee]: {employee greeting or question}  
-[AI]: Hey, I bought this item and it's broken now. What can I do about it?
+[employee]: Hello, thank you for contacting Kubota service. How can I assist you today?  
+[AI]: Hi, I bought a Kubota M6040 tractor just two weeks ago, and it's already giving me trouble. The engine is really hard to start. It takes multiple tries to even get it going. I called the service center on Monday, but the technician only showed up on Thursday! That delay cost me three full days during harvest. What am I supposed to do with that?
 
 Phase 2  
-[employee]: {employee response}  
-[AI]: {your response}
+[employee]: I'm really sorry to hear about that. Let me assure you we’ll do everything we can to resolve the issue.  
+[AI]: “Resolve the issue”? It’s already late. You guys should’ve been here right away when I called. Every single day counts during harvesting season!
 
 Phase 3  
-[employee]: {employee response}  
-[AI]: {your response}
+[employee]: I completely understand how frustrating that must be. We had a backlog earlier this week, but we're reviewing the process so this doesn’t happen again.  
+[AI]: A backlog? That’s not my problem. I paid full price for a machine that’s not working properly, and your service delays just made things worse. Who’s going to compensate me for the loss?
 
 Phase 4  
-[employee]: {employee response}  
-[AI]: {your response}
+[employee]: I understand, and we’ll log your feedback with our service team. In the meantime, we’ve already assigned a technician to inspect and fix the issue.  
+[AI]: That’s too little, too late. Fixing it now doesn’t change the fact that I missed my harvest window. What if this happens again? Will I have to wait three days every time?
 
 Phase 5  
-[employee]: {employee response}  
-[AI]: {your response}
+[employee]: We're implementing faster response times for urgent repairs and prioritizing customers during critical seasons like harvest.  
+[AI]: I’ll believe it when I see it. If Kubota wants to keep customers, you’ll need to prove you actually care after the sale too, not just before.
 
 Phase 6  
-[employee]: {employee response}  
-[AI]: {your response}
+[employee]: Absolutely, and we’re committed to improving both product reliability and service speed. We can also schedule a follow-up call to make sure everything’s running well.  
+[AI]: Fine, but this better not happen again. I don’t have time to chase support every time something goes wrong.
 
 Phase 7 End  
-[employee]: {employee response}  
-[AI]: {your closing response}
+[employee]: Thank you for your patience and for bringing this to our attention. We’ll follow up to ensure everything is working perfectly going forward.  
+[AI]: Alright, I’ll be waiting. Let’s hope next time your service matches the quality you advertise.

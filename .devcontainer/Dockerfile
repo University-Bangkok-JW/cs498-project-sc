@@ -1,5 +1,5 @@
-# Use official Node.js 18 image
-FROM node:18
+# Use Dev Container Node.js 18 image
+FROM mcr.microsoft.com/devcontainers/javascript-node:18
 
 # Install system dependencies, including git-lfs
 RUN apt-get update && \
@@ -28,6 +28,3 @@ RUN git lfs install --system
 
 # Confirm installs
 RUN node -v && npm -v && git --version && git lfs version && docker --version && docker-compose --version
-
-# Set working directory
-WORKDIR /workspace
